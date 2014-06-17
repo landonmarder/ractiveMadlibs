@@ -4,25 +4,7 @@
   <meta charset='utf-8'>
   <title>Mad Libs</title>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
-  <style>
-    span.blank {
-      color: red;
-      font-size: 1.2em;
-    }
-    #container {
-      width: 80%;
-      margin: 0 auto;
-    }
-
-    #title {
-      text-align: center;
-    }
-
-    li {
-      list-style: none;
-      margin: 20px 0;
-    }
-  </style>
+  <link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -32,7 +14,6 @@
   -->
   <div id='container'>
   </div>
-
   <!--
        2. You can load a template in many ways. For convenience, we'll include it in
        a script tag so that we don't need to mess around with AJAX or multiline strings.
@@ -84,70 +65,7 @@
     </div>
 
   </script>
-
-  <!--
-       3. You can always get the most recent stable version from the URL below.
-       If you want the newest features, use the 'edge' version instead:
-
-           http://cdn.ractivejs.org/edge/ractive.min.js
-
-       If you need IE8 support, change 'ractive' to 'ractive-legacy'.
-  -->
   <script src='http://cdn.ractivejs.org/latest/ractive.min.js'></script>
   <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-  <!--
-       4. We've got an element in the DOM, we've created a template, and we've
-       loaded the library - now it's time to build our Hello World app.
-  -->
-  <script>
-    var ractive = new Ractive({
-      // The `el` option can be a node, an ID, or a CSS selector.
-      el: 'container',
-
-      // We could pass in a string, but for the sake of convenience
-      // we're passing the ID of the <script> tag above.
-      template: '#template',
-
-      // Here, we're passing in some initial data
-      data: {
-              seven: { placeholder: 'NUMBER (1)', correct: false },
-              nation: { placeholder: 'NOUN (5)', correct: false },
-              equal: { placeholder: 'ADJ (1)', correct: false },
-              people: { placeholder: 'PLURAL NOUN (4)', correct: false },
-              numberCorrect: 0,
-              totalGuesses: 4,
-              totalTries: 0,
-              percentageCorrect: function(correct, guesses) {
-                  if (guesses > 0) {
-                  return correct / guesses * 100;
-                } else {
-                  return '-';
-                }
-              }
-            }
-    });
-    ractive.on('solution', function(event){
-      ractive.set( 'totalTries', ractive.get( 'totalTries' ) + 1 );
-      checkCorrect('seven');
-      checkCorrect('nation');
-      checkCorrect('equal');
-      checkCorrect('people');
-    });
-
-    function checkCorrect(string) {
-       if (isCorrect(string)) {
-        $('.' + string).css('color', 'green');
-        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
-        ractive.set(string, { correct: true, placeholder: string })
-      }
-    }
-
-    function isCorrect(string) {
-      if (ractive.data[string].placeholder === string && ractive.data[string].correct === false) {
-        return true;
-      } else {
-        return false;
-      }
-    }
-  </script>
+  <script src='index.js'></script>
 </body>
