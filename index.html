@@ -115,29 +115,24 @@
               people: 'PLURAL NOUN (4)',
               numberCorrect: 0,
               percentageCorrect: function(num) {
-                return num / 5 * 100;
+                return num / 4 * 100;
               }
             }
     });
     ractive.on('solution', function(event){
-      debugger;
-      if (ractive.data.seven === 'seven') {
-        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
-        $('.seven').css('color', 'green');
-      }
-      if (ractive.data.nation === 'nation') {
-        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
-        $('.nation').css('color', 'green');
-      }
-      if (ractive.data.equal === 'equal') {
-        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
-        $('.equal').css('color', 'green');
-      }
-      if (ractive.data.people === 'people') {
-        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
-        $('.people').css('color', 'green');
-      }
+      checkCorrect('seven');
+      checkCorrect('nation');
+      checkCorrect('equal');
+      checkCorrect('people');
     });
+
+    function checkCorrect(string) {
+      if (ractive.data[string] === string) {
+        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
+        $('.' + string).css('color', 'green');
+      }
+      ractive.set( 'totalGuesses', ractive.get( 'totalGuesses' ) + 1 )
+    }
 
   </script>
 </body>
