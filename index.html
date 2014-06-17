@@ -47,8 +47,9 @@
         <li><input placeholder='Choose a noun' value='{{nation.placeholder}}'></li>
         <li><input placeholder='Choose an adjective' value='{{equal.placeholder}}'></li>
         <li><input placeholder='Choose a plural noun' value='{{people.placeholder}}'></li>
-        <button on-click='solution' class="btn btn-primary">Click here to see how many correct!</button>
+        <button on-click='solution' class="btn btn-primary">Make a guess</button>
         <h3>{{percentageCorrect(numberCorrect, totalGuesses)}}% correct</h3>
+        <h4>Attempts: {{totalTries}}</h4>
       </div>
       <div class="col-md-6">
         <h2>Gettysburg Address</h2>
@@ -109,12 +110,13 @@
 
       // Here, we're passing in some initial data
       data: {
-              seven: { placeholder: 'NUMBER (1)', correct: false},
-              nation: { placeholder: 'NOUN (5)', correct: false},
-              equal: { placeholder: 'ADJ (1)', correct: false},
-              people: { placeholder: 'PLURAL NOUN (4)', correct: false},
+              seven: { placeholder: 'NUMBER (1)', correct: false },
+              nation: { placeholder: 'NOUN (5)', correct: false },
+              equal: { placeholder: 'ADJ (1)', correct: false },
+              people: { placeholder: 'PLURAL NOUN (4)', correct: false },
               numberCorrect: 0,
               totalGuesses: 4,
+              totalTries: 0,
               percentageCorrect: function(correct, guesses) {
                   if (guesses > 0) {
                   return correct / guesses * 100;
@@ -125,6 +127,7 @@
             }
     });
     ractive.on('solution', function(event){
+      ractive.set( 'totalTries', ractive.get( 'totalTries' ) + 1 );
       checkCorrect('seven');
       checkCorrect('nation');
       checkCorrect('equal');
@@ -146,6 +149,5 @@
         return false;
       }
     }
-
   </script>
 </body>
