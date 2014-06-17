@@ -4,11 +4,28 @@
   <meta charset='utf-8'>
   <title>Mad Libs</title>
   <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    span {
+      color: red;
+    }
+    #container {
+      width: 80%;
+      margin: 0 auto;
+    }
+
+    #title {
+      text-align: center;
+    }
+
+    li {
+      list-style: none;
+      margin: 20px 0;
+    }
+  </style>
 </head>
 
 <body>
-  <h1>Mad Libs</h1>
-
+  <h2 id='title'>Gettysburg Address Mad Libs</h2>
   <!--
        1. This is the element we'll render our Ractive to.
   -->
@@ -22,8 +39,45 @@
        just about anything except 'text/javascript'
   -->
   <script id='template' type='text/ractive'>
-    <h2>Fill in with which words you want:</h2>
-    <p>Hello, {{name}}!</p>
+    <div class='row'>
+      <div class="col-md-6">
+        <h2>Pick a part of speech</h2>
+        <li><input placeholder='Choose a number' value='{{seven}}'></li>
+        <li><input placeholder='Choose a noun' value='{{nation}}'></li>
+        <li><input placeholder='Choose an adjective' value='{{equal}}'></li>
+        <li><input placeholder='Choose a plural noun' value='{{people}}'></li>
+      </div>
+      <div class="col-md-6">
+        <h2>Gettysburg Address</h2>
+        <p>
+          Fourscore and <span>{{seven}}</span> years ago our fathers brought
+          forth on this continent a new <span>{{nation}}</span>, conceived in
+          liberty and dedicated to the proposition that all men
+          are created <span>{{equal}}.</span> Now we are engaged in a great
+          civil war, testing whether that <span>{{nation}}</span> or any
+          <span>{{nation}}</span> so conceived and so dedicated can long endure.
+          We are met on a great battlefield of that war. We have come to dedicate
+          a portion of that field as a final resting-place for those who here
+          gave their lives that that <span>{{nation}}</span> might live. It is
+          altogether fitting and proper that we should do this. But in a larger
+          sense, we cannot dedicate, we cannot consecrate, we cannot hallow this
+          ground. The brave men, living and dead who struggled here have consecrated
+          it far above our poor power to add or detract. The world will little
+          note nor long remember what we say here, but it can never forget what
+          they did here. It is for us the living rather to be dedicated here to
+          the unfinished work which they who fought here have thus far so nobly
+          advanced. It is rather for us to be here dedicated to the great task
+          remaining before us--that from these honored dead we take increased
+          devotion to that cause for which they gave the last full measure of
+          devotion--that we here highly resolve that these dead shall not have
+          died in vain, that this <span>{{nation}}</span> under God shall have a
+          new birth of freedom, and that government of the <span>{{people}},</span>
+          by the <span>{{people}},</span> for the <span>{{people}}</span> shall not
+          perish from the earth.
+        </p>
+      </div>
+    </div>
+
   </script>
 
   <!--
@@ -50,7 +104,12 @@
       template: '#template',
 
       // Here, we're passing in some initial data
-      data: { name: 'world' }
+      data: {
+              seven: 'NUMBER (1)',
+              nation: 'NOUN (5)',
+              equal: 'ADJ (1)',
+              people: 'PLURAL NOUN (4)'
+            }
     });
   </script>
 </body>
