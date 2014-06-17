@@ -43,26 +43,26 @@
     <div class='row'>
       <div class="col-md-6">
         <h2>Pick a part of speech</h2>
-        <li><input placeholder='Choose a number' value='{{seven}}'></li>
-        <li><input placeholder='Choose a noun' value='{{nation}}'></li>
-        <li><input placeholder='Choose an adjective' value='{{equal}}'></li>
-        <li><input placeholder='Choose a plural noun' value='{{people}}'></li>
+        <li><input placeholder='Choose a number' value='{{seven.placeholder}}'></li>
+        <li><input placeholder='Choose a noun' value='{{nation.placeholder}}'></li>
+        <li><input placeholder='Choose an adjective' value='{{equal.placeholder}}'></li>
+        <li><input placeholder='Choose a plural noun' value='{{people.placeholder}}'></li>
         <button on-click='solution' class="btn btn-primary">Click here to see how many correct!</button>
-        <h3>{{percentageCorrect(numberCorrect)}}% correct</h3>
+        <h3>{{percentageCorrect(numberCorrect, totalGuesses)}}% correct</h3>
       </div>
       <div class="col-md-6">
         <h2>Gettysburg Address</h2>
         <p>
-          Fourscore and <span class='blank seven'>{{seven}}</span> years ago our fathers brought
-          forth on this continent a new <span class='blank nation'>{{nation}}</span>,
+          Fourscore and <span class='blank seven'>{{seven.placeholder}}</span> years ago our fathers brought
+          forth on this continent a new <span class='blank nation'>{{nation.placeholder}}</span>,
           conceived in liberty and dedicated to the proposition that all men
-          are created <span class='blank equal'>{{equal}}.</span> Now we are engaged
-          in a great civil war, testing whether that <span class='blank nation'>{{nation}}
-          </span> or any <span class='blank nation'>{{nation}}</span> so conceived and
+          are created <span class='blank equal'>{{equal.placeholder}}.</span> Now we are engaged
+          in a great civil war, testing whether that <span class='blank nation'>{{nation.placeholder}}
+          </span> or any <span class='blank nation'>{{nation.placeholder}}</span> so conceived and
           so dedicated can long endure. We are met on a great battlefield of that war.
           We have come to dedicate a portion of that field as a final resting-place
           for those who here gave their lives that that <span class='blank nation'>
-          {{nation}}</span> might live. It is altogether fitting and proper that
+          {{nation.placeholder}}</span> might live. It is altogether fitting and proper that
           we should do this. But in a larger sense, we cannot dedicate, we cannot
           consecrate, we cannot hallow this ground. The brave men, living and
           dead who struggled here have consecrated it far above our poor power
@@ -74,10 +74,10 @@
           these honored dead we take increased devotion to that cause for which
           they gave the last full measure of devotion--that we here highly resolve
           that these dead shall not have died in vain, that this
-          <span class='blank nation'>{{nation}}</span> under God shall have a new birth
-          of freedom, and that government of the <span class='blank people'>{{people}},</span>
-          by the <span class='blank people'>{{people}},</span> for the <span class='blank people'>
-          {{people}}</span> shall not perish from the earth.
+          <span class='blank nation'>{{nation.placeholder}}</span> under God shall have a new birth
+          of freedom, and that government of the <span class='blank people'>{{people.placeholder}},</span>
+          by the <span class='blank people'>{{people.placeholder}},</span> for the <span class='blank people'>
+          {{people.placeholder}}</span> shall not perish from the earth.
         </p>
       </div>
     </div>
@@ -109,13 +109,18 @@
 
       // Here, we're passing in some initial data
       data: {
-              seven: 'NUMBER (1)',
-              nation: 'NOUN (5)',
-              equal: 'ADJ (1)',
-              people: 'PLURAL NOUN (4)',
+              seven: { placeholder: 'NUMBER (1)', correct: false},
+              nation: { placeholder: 'NOUN (5)', correct: false},
+              equal: { placeholder: 'ADJ (1)', correct: false},
+              people: { placeholder: 'PLURAL NOUN (4)', correct: false},
               numberCorrect: 0,
-              percentageCorrect: function(num) {
-                return num / 4 * 100;
+              totalGuesses: 4,
+              percentageCorrect: function(correct, guesses) {
+                  if (guesses > 0) {
+                  return correct / guesses * 100;
+                } else {
+                  return '-';
+                }
               }
             }
     });
@@ -127,9 +132,18 @@
     });
 
     function checkCorrect(string) {
-      if (ractive.data[string] === string) {
-        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
+       if (isCorrect(string)) {
         $('.' + string).css('color', 'green');
+        ractive.set( 'numberCorrect', ractive.get( 'numberCorrect' ) + 1 );
+        ractive.set(string, { correct: true, placeholder: string })
+      }
+    }
+
+    function isCorrect(string) {
+      if (ractive.data[string].placeholder === string && ractive.data[string].correct === false) {
+        return true;
+      } else {
+        return false;
       }
     }
 
